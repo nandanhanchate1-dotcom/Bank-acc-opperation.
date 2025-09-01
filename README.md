@@ -1,58 +1,79 @@
-# Bank-acc-opperation.
----
-##💰 BankAccount SMS Notification System (with Twilio)
+# 💰 BankAccount SMS Notification System (with Twilio)
 
 This Python script simulates a basic banking system where users can deposit and withdraw money from their account. Upon each operation, the system sends an SMS notification to the user's phone using the Twilio API.
 
-📜 Features
+---
 
-Custom Exception Handling: Uses a custom exception InvalidAccountError to handle invalid operations like overdrafts or negative deposits.
+## 📜 Features
 
-SMS Notifications: Automatically sends an SMS for every successful or failed transaction.
+- **Custom Exception Handling**:  
+  Uses a custom exception `InvalidAccountError` to handle invalid operations like overdrafts or negative deposits.
 
-Twilio Integration: Uses twilio.rest.Client to send messages to the user’s phone.
+- **SMS Notifications**:  
+  Automatically sends an SMS for every successful or failed transaction.
 
-User Interaction: Takes input from the user for deposit and withdrawal operations.
+- **Twilio Integration**:  
+  Uses `twilio.rest.Client` to send messages to the user’s phone.
 
-🧾 Class & Function Overview
-InvalidAccountError
+- **User Interaction**:  
+  Takes input from the user for deposit and withdrawal operations.
+
+---
+
+## 🧾 Class & Function Overview
+
+### `InvalidAccountError`
 
 A custom exception class for invalid account operations such as:
+- Insufficient funds
+- Invalid deposit amounts
 
-Insufficient funds
+---
 
-Invalid deposit amounts
-
-BankAccount
+### `BankAccount`
 
 Represents a simple bank account.
 
-Attributes:
+**Attributes**:
+- `account_number`: Account identifier  
+- `balance`: Current account balance  
+- `phone_number`: User’s phone number (used for SMS alerts)  
+- `account_sid`, `auth_token`, `twilio_number`: Twilio credentials  
 
-account_number: Account identifier
+**Methods**:
 
-balance: Current account balance
+- `send_sms(message)`  
+  Sends an SMS via Twilio.
 
-phone_number: User’s phone number (used for SMS alerts)
+- `withdraw(amount)`  
+  Withdraws money and sends SMS.  
+  Raises `InvalidAccountError` if funds are insufficient.
 
-account_sid, auth_token, twilio_number: Twilio credentials
+- `deposit(amount)`  
+  Deposits money and sends SMS.  
+  Raises `InvalidAccountError` for non-positive deposits.
 
-Methods:
+---
 
-send_sms(message): Sends an SMS via Twilio
+## 🔄 Workflow
 
-withdraw(amount): Withdraws money and sends SMS. Raises InvalidAccountError if funds are insufficient.
+1. **User is prompted to enter a withdrawal amount.**
+   - If the amount is valid, the balance is updated, and an SMS is sent.
+   - If not, an exception is raised and an SMS alert is sent.
 
-deposit(amount): Deposits money and sends SMS. Raises InvalidAccountError for non-positive deposits.
+2. **User is prompted to enter a deposit amount.**
+   - If valid, the balance is updated, and an SMS is sent.
+   - If not, an exception is raised and an SMS alert is sent.
 
-🔄 Workflow
+3. **Any custom exceptions** are caught and displayed, with appropriate SMS alerts sent.
 
-User is prompted to enter a withdrawal amount.
+---
 
-If the amount is valid, the balance is updated, and an SMS is sent.
+## 📦 Requirements
 
-User is prompted to enter a deposit amount.
+- Python 3.x
+- [Twilio](https://www.twilio.com/) Account
+- `twilio` Python package
 
-If valid, the balance is updated, and an SMS is sent.
-
-Any custom exceptions are caught and displayed, along with SMS alerts
+```bash
+pip install twilio
